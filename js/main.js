@@ -162,14 +162,20 @@ function agregarFila(nombre, opcion, venta, valor1, valor2, bono) {
     eliminarInput(nombre, opcion, venta, valor1, valor2, bono);
     
     tr.remove();
-
-
+    console.log(total);
+    
+    
  
     
     if (document.getElementById("listado").querySelector("tbody").querySelectorAll("tr").length==0) {
         document.getElementById("listado").classList.add("hide");
     }
 }
+
+/* function restar_total(arreglo, borrar){
+      arreglo = arreglo.filter(i => i != borrar);
+      return arreglo
+} */
  
 /**
  * @param string nombre
