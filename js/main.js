@@ -1,9 +1,13 @@
 let arr = [];
+let id = 0;
+let array_valores = [];
+let suma_valores = 0;
+let reduce = 0;
 
 document.querySelector("input[type=submit]").addEventListener("click",function(e){
     
     e.preventDefault();
- 
+    //SE CAPTURAN LOS NODOS PRINCIPALES
     let nombre=document.querySelector("input[name=nombre]");
     //SE OBTIENEN VALORES DEL SELECT
     let lista = document.getElementById("opciones");
@@ -12,15 +16,27 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     let textoSeleccionado = opcionSeleccionada.text;
     let valorSeleccionado = opcionSeleccionada.value;
     console.log(textoSeleccionado);
+    
     let venta = document.querySelector("input[name=sale]");
     let meta = document.querySelector("input[name=meta]");
-
     console.log(parseInt(venta.value));
     let bono = calcular_bono(venta.value);
+
+    // SE INICIALIZA LA VARIABLE BANDERA ID PARA QUE CADA ASESOR TENGA UN IDENTIFICADOR UNICO
+    id = id + 1;
     
     console.log(bono);
+    
+
     let comision = {valor1:venta.value * 0.05, valor2:venta.value * 0.02};
+    
     arr.push(parseInt(venta.value));
+    reduce = array_valores.push({identificador: id, valor:parseInt(venta.value)});
+
+    
+    console.log(reduce);
+
+    console.log(array_valores);
     let total = 0;
     for(let i of arr){
       total+=i;
@@ -46,8 +62,8 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     }
     venta.classList.remove("erorr");
     
-    agregarFila(nombre.value, opcionSeleccionada.value, venta.value, comision.valor1, comision.valor2, bono);
-    agregarInput(nombre.value, opcionSeleccionada.value, venta.value, comision.valor1, comision.valor2, bono);
+    agregarFila(id, nombre.value, opcionSeleccionada.value, venta.value, comision.valor1, comision.valor2, bono);
+    agregarInput(id, nombre.value, opcionSeleccionada.value, venta.value, comision.valor1, comision.valor2, bono);
     
  
     
@@ -59,12 +75,18 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
 });
  
 
-function agregarFila(nombre, opcion, venta, valor1, valor2, bono) {
+function agregarFila(id, nombre, opcion, venta, valor1, valor2, bono) {
     
     const tr=document.createElement("tr");
- 
+
+    let tdId = document.createElement("td");
+    let txt = document.createTextNode(id);
+    tdId.appendChild(txt);
+    tdId.className = "id";
+
+
     const tdNombre=document.createElement("td");
-    let txt=document.createTextNode(nombre);
+    txt=document.createTextNode(nombre);
     tdNombre.appendChild(txt);
     tdNombre.className="nombre";
  
@@ -102,7 +124,7 @@ function agregarFila(nombre, opcion, venta, valor1, valor2, bono) {
     
  
     
- 
+    tr.appendChild(tdId);
     tr.appendChild(tdNombre);
     tr.appendChild(tdOpcion);
     tr.appendChild(tdventa);
@@ -151,18 +173,27 @@ function agregarFila(nombre, opcion, venta, valor1, valor2, bono) {
   }
  
   function eliminarFila(e) {
-    let tr=this.closest("tr")
+    let tr=this.closest("tr");
+    let id = tr.querySelector(".id").innerText;
     let nombre=tr.querySelector(".nombre").innerText;
     let opcion = tr.querySelector(".left").innerText;
     let venta =tr.querySelector(".rigth").innerText;
     let valor1 = tr.querySelector(".commision").innerText;
     let valor2 = tr.querySelector(".propina").innerText;
     let bono = tr.querySelector(".bono").innerText;
-    
-    eliminarInput(nombre, opcion, venta, valor1, valor2, bono);
-    
+    let vlr_total = document.querySelector("#totalizado").textContent;
+
+
+    vlr_total = parseInt(vlr_total);
+    let valor_a_borrar = parseInt(venta);
+    let valor_id = parseInt(id);
+    document.querySelector("#totalizado").innerHTML = vlr_total -valor_a_borrar;
+    console.log(vlr_total);
+    array_valores = array_valores.filter((item) => item.identificador !== valor_id);
+    arr = arr.filter(i => i !== valor_a_borrar);
+    console.log(array_valores);
     tr.remove();
-    console.log(total);
+    
     
     
  
@@ -172,10 +203,7 @@ function agregarFila(nombre, opcion, venta, valor1, valor2, bono) {
     }
 }
 
-/* function restar_total(arreglo, borrar){
-      arreglo = arreglo.filter(i => i != borrar);
-      return arreglo
-} */
+
  
 /**
  * @param string nombre
