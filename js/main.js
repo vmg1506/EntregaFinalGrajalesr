@@ -32,7 +32,7 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     
     arr.push(parseInt(venta.value));
     reduce = array_valores.push({identificador: id, valor:parseInt(venta.value)});
-
+    reduce = array_valores.reduce((a, b) => a + b.valor, 0);
     
     console.log(reduce);
 
@@ -43,9 +43,9 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     }
     console.log(arr);
     console.log(total);
-    document.getElementById("totalizado").innerHTML = total;
+    document.getElementById("totalizado").innerHTML = reduce;
     let metaInt = parseInt(meta.value);
-    let prueba = calculo_meta(metaInt, total);
+    let prueba = calculo_meta(metaInt, reduce);
     console.log(prueba);
 
     
@@ -187,11 +187,14 @@ function agregarFila(id, nombre, opcion, venta, valor1, valor2, bono) {
     vlr_total = parseInt(vlr_total);
     let valor_a_borrar = parseInt(venta);
     let valor_id = parseInt(id);
-    document.querySelector("#totalizado").innerHTML = vlr_total -valor_a_borrar;
-    console.log(vlr_total);
     array_valores = array_valores.filter((item) => item.identificador !== valor_id);
+    let valor_nuevo = array_valores.reduce((acumulador, actual) => acumulador + actual.valor, 0);
+    document.querySelector("#totalizado").innerHTML = valor_nuevo;
+    console.log(vlr_total);
+    
     arr = arr.filter(i => i !== valor_a_borrar);
     console.log(array_valores);
+    console.log(valor_nuevo);
     tr.remove();
     
     
@@ -222,5 +225,6 @@ function eliminarInput(nombre, opcion){
   let input = document.querySelector("input[type=hidden][value="+nombre+"-"+opcion+"]");
   input.remove();
 }
+
 
 
