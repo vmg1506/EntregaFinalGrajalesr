@@ -3,6 +3,9 @@ let id = 0;
 let array_valores = [];
 let suma_valores = 0;
 let reduce = 0;
+let leyenda = [];
+let data_ventas = []; 
+
 
 document.querySelector("input[type=submit]").addEventListener("click",function(e){
     
@@ -29,7 +32,10 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     
 
     let comision = {valor1:venta.value * 0.05, valor2:venta.value * 0.02};
-    
+    leyenda.push(nombre.value);
+    data_ventas.push(parseInt(venta.value));
+    console.log(leyenda);
+    console.log(data_ventas);
     arr.push(parseInt(venta.value));
     reduce = array_valores.push({identificador: id, valor:parseInt(venta.value)});
     reduce = array_valores.reduce((a, b) => a + b.valor, 0);
@@ -228,3 +234,26 @@ function eliminarInput(nombre, opcion){
 
 
 
+document.querySelector(".boton_grafica").addEventListener("click", function(e){
+
+  const ctx = document.getElementById('grafica');
+
+  new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+      labels: leyenda,
+      datasets: [{
+        label: 'Valor ventas por asesor',
+        data: data_ventas,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+});
