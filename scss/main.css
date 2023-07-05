@@ -138,6 +138,11 @@ button:hover {
   background-color: #5053f1;
 }
 
+.box_plot {
+  height: 600px;
+  width: 600px;
+}
+
 body {
   background-color: rgb(229, 244, 252);
   font-family: "Dosis", sans-serif;
