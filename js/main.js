@@ -4,7 +4,11 @@ let array_valores = [];
 let suma_valores = 0;
 let reduce = 0;
 let leyenda = [];
-let data_ventas = []; 
+let data_ventas = [];
+let prueba_prom = 0;
+let promesa = [];
+
+ 
 
 
 document.querySelector("input[type=submit]").addEventListener("click",function(e){
@@ -43,12 +47,16 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     console.log(reduce);
 
     console.log(array_valores);
+    
     let total = 0;
     for(let i of arr){
       total+=i;
     }
     console.log(arr);
     console.log(total);
+    prueba_prom = promedio(total, data_ventas.length);
+    console.log("este es el promedio");
+    console.log(prueba_prom);
     document.getElementById("totalizado").innerHTML = reduce;
     let metaInt = parseInt(meta.value);
     let prueba = calculo_meta(metaInt, reduce);
@@ -77,6 +85,30 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
     textoSeleccionado.value="";
     nombre.value="";
     nombre.focus();
+
+    let agregar_valor_prom = new Promise( function(resolve,reject){
+
+    setTimeout( function(){
+
+        let tiempo_carga = Math.random();
+        if( tiempo_carga < 0.8 ){
+            promesa.push(prueba_prom);
+            resolve( promesa );
+        }
+        else{
+            reject("No se pudo cargar")
+        }
+    }, 2000)
+
+})
+ agregar_valor_prom
+                .then( function(promesa){
+                    console.log("Producto agregado");
+                    console.log(promesa);
+                })
+                .catch( function( msj_error){
+                    console.log( msj_error );
+                })
  
 });
  
@@ -257,3 +289,14 @@ document.querySelector(".boton_grafica").addEventListener("click", function(e){
     }
   });
 });
+
+
+function promedio (a, b) {
+      let prom = a/b;
+      return prom
+
+};
+
+
+
+
