@@ -105,6 +105,7 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
                 .then( function(promesa){
                     console.log("Producto agregado");
                     console.log(promesa);
+                    document.querySelector(".promedio").innerHTML = promesa;
                 })
                 .catch( function( msj_error){
                     console.log( msj_error );
