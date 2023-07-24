@@ -103,7 +103,7 @@ document.querySelector("input[type=submit]").addEventListener("click",function(e
 })
  agregar_valor_prom
                 .then( function(promesa){
-                    console.log("Producto agregado");
+                    console.log("valor agregado");
                     console.log(promesa);
                     document.querySelector(".promedio").innerHTML = promesa;
                 })
